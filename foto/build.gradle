@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group = 'cz.cvut.fit.tjv.social_net'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.springframework', name: 'spring-context', version: '6.0.13'
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: '6.3.1.Final'
+    implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '3.1.5'
+    runtimeOnly group: 'com.h2database', name: 'h2', version: '2.2.224'
+}
+
+test {
+    useJUnitPlatform()
+}
