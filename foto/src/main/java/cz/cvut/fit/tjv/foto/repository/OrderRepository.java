@@ -9,11 +9,9 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Repository
-public interface OrderRepository extends CrudRepository<Order, String> {
+public interface OrderRepository extends CrudRepository<Order, Long> {
     Collection<Order> findByAuthorName(String customerName);
 
 
 
-    ///?
-    Optional<Order> findById(long orderId);
 }

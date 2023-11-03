@@ -25,7 +25,7 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
     }
 
     @Override
-    public void createOrder(long orderId, String who) {
+    public void createOrder(long orderId, Long who) {
         Optional<Order> optOrder = orderRepository.findById(orderId);
         Optional<Customer> optCustomer = customerRepository.findById(who);
 
