@@ -1,4 +1,6 @@
 package cz.cvut.fit.tjv.foto.service;
 
-public interface CustomerService {
+import cz.cvut.fit.tjv.foto.domain.Customer;
+
+public interface CustomerService extends CrudService<Customer, String> {
 }
