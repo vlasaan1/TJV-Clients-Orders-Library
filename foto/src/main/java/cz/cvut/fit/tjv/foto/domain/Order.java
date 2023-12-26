@@ -14,17 +14,20 @@ public class Order implements EntityWithId<Long> {
     private String cost;
     @ManyToOne
     private Customer author;
-    @ManyToMany
-    private Collection<Photographer> photographer;
-    private String message;
-//
-    public Collection<Photographer> getPhotographer() {
-        return photographer;
+
+    public Collection<Photographer> getPhotographers() {
+        return photographers;
     }
 
-    public void setPhotographer(Collection<Photographer> photographer) {
-        this.photographer = photographer;
+    public void setPhotographers(Collection<Photographer> photographers) {
+        this.photographers = photographers;
     }
+
+    @ManyToMany
+    private Collection<Photographer> photographers;
+    private String message;
+//
+
 
     public String getMessage() {
         return message;

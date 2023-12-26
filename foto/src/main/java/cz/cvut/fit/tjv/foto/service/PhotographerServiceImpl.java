@@ -14,6 +14,8 @@ public abstract class PhotographerServiceImpl extends CrudServiceImpl<Photograph
 
     public void updatePhotographerSessions(Collection<Photographer> photographers){
 
+
+
     }
 
 

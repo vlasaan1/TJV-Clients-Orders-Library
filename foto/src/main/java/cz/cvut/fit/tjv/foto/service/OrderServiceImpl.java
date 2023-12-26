@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements CustomerService  {
+public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements OrderService  {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final PhotographerRepository photographerRepository;
@@ -31,17 +31,20 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Cu
     public Order createOrder(Order o) {
         Optional<Order> optOrder = orderRepository.findById(o.getId());
         Optional<Customer> optCustomer = customerRepository.findById(o.getAuthor().getId());
-        Optional<Photographer> optPhotographer = photographerRepository.findById(o.getPhotographer());
+        Optional<Photographer> optPhotographer = photographerRepository.findById(o.getPhotographers());
 
         if (optOrder.isEmpty() || optCustomer.isEmpty())
             throw new IllegalArgumentException("invalid ID");
 
         Order order = optOrder.get();
         Customer customer = optCustomer.get();
+        Photographer photographer = optPhotographer.get();
 
         if (order.getAuthor().equals(customer)
             throw new AuthorCannotCreateExistingOrder();
-//possibly add exception when the photographer is on the order already
+//possibly add exception when the photographer included more times?
+        if (!)
+        throw new AuthorCannotCreateExistingOrder();
 
 //
         var resOrder = orderRepository.save(order);

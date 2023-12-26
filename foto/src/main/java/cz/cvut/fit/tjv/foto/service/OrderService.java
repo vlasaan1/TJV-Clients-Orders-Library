@@ -7,7 +7,7 @@ import java.util.Collection;
 public interface OrderService extends CrudService<Order, Long> {
     Collection<Order> readAllByAuthorId(Long userId);
 
-    void createOrder(long orderId, Long who) throws AuthorCannotCreateExistingOrder;
+    Order createOrder(Order o) throws AuthorCannotCreateExistingOrder;
 
     //delete orders 
 }
