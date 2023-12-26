@@ -31,19 +31,6 @@ public class Customer implements EntityWithId<Long> {
         return Objects.hash(id);
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj == null) return false;
-//        if (obj instanceof Customer u)
-//            return id == null ? id == u.id : id.equals(u.id);
-//        return false;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return id == null ? 0 : id.hashCode();
-//    }
-
 
     @Override
     public Long getId() {

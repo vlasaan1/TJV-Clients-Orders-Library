@@ -11,4 +11,5 @@ import java.util.Collection;
 public interface OrderRepository extends CrudRepository<Order, Long> {
     Collection<Order> findByAuthorId(Long authorId);
 
+
 }

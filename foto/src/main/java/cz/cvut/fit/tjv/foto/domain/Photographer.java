@@ -12,9 +12,17 @@ public class Photographer {
     private String name;
     private String phoneNumber;
 
-//set objednavek - dny
+    //collection of orders - dates
     @ManyToMany(mappedBy = "photographer")
     private Collection<Order> sessions;
+    public Collection<Order> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Collection<Order> sessions) {
+        this.sessions = sessions;
+    }
+
 
     public Long getId() { return id; }
     public void setId(Long id) {

@@ -17,9 +17,9 @@ public class Order implements EntityWithId<Long> {
     private Customer author;
     @ManyToMany
     private Collection<Photographer> photographer;
-
+//
     private String message;
-
+//
     public String getMessage() {
         return message;
     }
@@ -27,7 +27,6 @@ public class Order implements EntityWithId<Long> {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
     public void setId(Long id) {
         this.id = id;
