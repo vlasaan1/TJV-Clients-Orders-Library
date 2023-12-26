@@ -2,6 +2,7 @@ package cz.cvut.fit.tjv.foto.service;
 
 import cz.cvut.fit.tjv.foto.domain.Customer;
 import cz.cvut.fit.tjv.foto.domain.Order;
+import cz.cvut.fit.tjv.foto.domain.Photographer;
 import cz.cvut.fit.tjv.foto.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.data.repository.CrudRepository;
@@ -10,13 +11,15 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements OrderService {
-    private OrderRepository orderRepository;
-    private CustomerRepository customerRepository;
+public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements CustomerService  {
+    private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final PhotographerRepository photographerRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, CustomerRepository customerRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, CustomerRepository customerRepository, PhotographerRepository photographerRepository) {
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
+        this.photographerRepository = photographerRepository;
     }
 
     @Override
@@ -25,9 +28,10 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
     }
 
     @Override
-    public void createOrder(Order o) {
+    public Order createOrder(Order o) {
         Optional<Order> optOrder = orderRepository.findById(o.getId());
-        Optional<Customer> optCustomer = customerRepository.findById(o.getAuthor());
+        Optional<Customer> optCustomer = customerRepository.findById(o.getAuthor().getId());
+        Optional<Photographer> optPhotographer = photographerRepository.findById(o.getPhotographer());
 
         if (optOrder.isEmpty() || optCustomer.isEmpty())
             throw new IllegalArgumentException("invalid ID");
@@ -35,18 +39,17 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
         Order order = optOrder.get();
         Customer customer = optCustomer.get();
 
-        if (order.getAuthor().equals(customer))
+        if (order.getAuthor().equals(customer)
             throw new AuthorCannotCreateExistingOrder();
 //possibly add exception when the photographer is on the order already
 
 //
+        var resOrder = orderRepository.save(order);
 
-        //var res = getRepository().save(e);
-        //updateProductRating(res.getId());
+        photographerRepository.updatePhotographerSessions(resOrder.getPhotographer());
 
-
-        orderRepository.save(order);
         customerRepository.save(customer);
+        return resOrder;
     }
 
 
@@ -55,4 +58,5 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
     protected CrudRepository<Order, Long> getRepository() {
         return orderRepository;
     }
+
 }

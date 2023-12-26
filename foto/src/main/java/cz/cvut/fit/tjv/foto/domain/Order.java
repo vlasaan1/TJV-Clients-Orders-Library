@@ -2,7 +2,6 @@ package cz.cvut.fit.tjv.foto.domain;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -17,9 +16,16 @@ public class Order implements EntityWithId<Long> {
     private Customer author;
     @ManyToMany
     private Collection<Photographer> photographer;
-//
     private String message;
 //
+    public Collection<Photographer> getPhotographer() {
+        return photographer;
+    }
+
+    public void setPhotographer(Collection<Photographer> photographer) {
+        this.photographer = photographer;
+    }
+
     public String getMessage() {
         return message;
     }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Photographer {
+public class Photographer implements EntityWithId<Long> {
     @Id
     @GeneratedValue
     private Long id;
