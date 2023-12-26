@@ -1,25 +1,33 @@
 package cz.cvut.fit.tjv.foto.domain;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+@Entity
 public class Order implements EntityWithId<Long> {
     @Id
     @GeneratedValue
     private Long id;
     private String date;
     private String cost;
-
-    @ManyToMany
-    private final Collection<Customer> orderedBy = new ArrayList<>();
     @ManyToOne
     private Customer author;
+    @ManyToMany
+    private Collection<Photographer> photographer;
+
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -39,10 +47,6 @@ public class Order implements EntityWithId<Long> {
 
     public void setCost(String cost) {
         this.cost = cost;
-    }
-
-    public Collection<Customer> getOrderedBy() {
-        return orderedBy;
     }
 
     public Customer getAuthor() {

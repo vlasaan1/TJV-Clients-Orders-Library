@@ -20,8 +20,8 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
     }
 
     @Override
-    public Collection<Order> readAllByAuthor(String customerId) {
-        return orderRepository.findByAuthorName(customerId);
+    public Collection<Order> readAllByAuthorId(Long customerId) {
+        return orderRepository.findByAuthorId(customerId);
     }
 
     @Override
@@ -37,13 +37,15 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
 //
         if (order.getAuthor().equals(customer))
             throw new AuthorCannotCreateNewOrder();
+//possibly add exception when the photographer is on the order already
 
-        order.getOrderedBy().add(customer);
-        customer.getOrderedByMe().add(order);
+//
 
         orderRepository.save(order);
         customerRepository.save(customer);
     }
+
+
 
     @Override
     protected CrudRepository<Order, Long> getRepository() {

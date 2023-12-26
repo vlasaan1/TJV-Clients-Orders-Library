@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 @Entity
 //@Table(name = "customers")
@@ -14,26 +15,34 @@ public class Customer implements EntityWithId<Long> {
     private String name;
     //unsure about this attribute
     private String phoneNumber;
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
     private Collection<Order> myOrders = new HashSet<>();
-    @ManyToMany(mappedBy = "orderedBy")
-    private Collection<Order> orderedByMe= new HashSet<>();
-
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj instanceof Customer u)
-            return id == null ? id == u.id : id.equals(u.id);
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(id, customer.id);
     }
 
     @Override
     public int hashCode() {
-        return id == null ? 0 : id.hashCode();
+        return Objects.hash(id);
     }
 
-
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (obj == null) return false;
+//        if (obj instanceof Customer u)
+//            return id == null ? id == u.id : id.equals(u.id);
+//        return false;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id == null ? 0 : id.hashCode();
+//    }
 
 
     @Override
@@ -69,12 +78,5 @@ public class Customer implements EntityWithId<Long> {
         this.myOrders = myOrders;
     }
 
-    public Collection<Order> getOrderedByMe() {
-        return orderedByMe;
-    }
-
-    public void setOrderedByMe(Collection<Order> orderedByMe) {
-        this.orderedByMe = orderedByMe;
-    }
 
 }

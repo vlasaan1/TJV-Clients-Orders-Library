@@ -6,12 +6,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
-    Collection<Order> findByAuthorName(String customerName);
-
-
+    Collection<Order> findByAuthorId(Long authorId);
 
 }
