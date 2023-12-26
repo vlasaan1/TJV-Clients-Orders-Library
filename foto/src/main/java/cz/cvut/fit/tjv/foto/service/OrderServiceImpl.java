@@ -25,21 +25,25 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
     }
 
     @Override
-    public void createOrder(long orderId, Long who) {
-        Optional<Order> optOrder = orderRepository.findById(orderId);
-        Optional<Customer> optCustomer = customerRepository.findById(who);
+    public void createOrder(Order o) {
+        Optional<Order> optOrder = orderRepository.findById(o.getId());
+        Optional<Customer> optCustomer = customerRepository.findById(o.getAuthor());
 
         if (optOrder.isEmpty() || optCustomer.isEmpty())
             throw new IllegalArgumentException("invalid ID");
 
         Order order = optOrder.get();
         Customer customer = optCustomer.get();
-//
+
         if (order.getAuthor().equals(customer))
-            throw new AuthorCannotCreateNewOrder();
+            throw new AuthorCannotCreateExistingOrder();
 //possibly add exception when the photographer is on the order already
 
 //
+
+        //var res = getRepository().save(e);
+        //updateProductRating(res.getId());
+
 
         orderRepository.save(order);
         customerRepository.save(customer);

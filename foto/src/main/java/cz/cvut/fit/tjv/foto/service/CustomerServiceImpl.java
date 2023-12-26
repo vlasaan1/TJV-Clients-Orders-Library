@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerServiceImpl extends CrudServiceImpl<Customer, Long> implements CustomerService {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -17,4 +17,7 @@ public class CustomerServiceImpl extends CrudServiceImpl<Customer, Long> impleme
     protected CrudRepository<Customer, Long> getRepository() {
         return customerRepository;
     }
+
+    //void deleteFromOrderAuthor(Long productId){}
+
 }
