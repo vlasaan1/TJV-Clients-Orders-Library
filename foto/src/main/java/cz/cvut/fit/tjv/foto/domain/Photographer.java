@@ -13,7 +13,7 @@ public class Photographer implements EntityWithId<Long> {
     private String phoneNumber;
 
     //collection of orders - dates
-    @ManyToMany(mappedBy = "photographer")
+    @ManyToMany(mappedBy = "photographers")
     private Collection<Order> sessions;
     public Collection<Order> getSessions() {
         return sessions;

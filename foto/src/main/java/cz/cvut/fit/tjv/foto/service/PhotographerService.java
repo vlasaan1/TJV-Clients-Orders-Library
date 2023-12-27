@@ -6,6 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Collection;
 
 public interface PhotographerService extends CrudService<Photographer, Long> {
-    void updatePhotographerSessions(Collection<Photographer> photographers);
 
 }

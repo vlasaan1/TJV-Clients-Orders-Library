@@ -12,12 +12,6 @@ public abstract class PhotographerServiceImpl extends CrudServiceImpl<Photograph
 
     private PhotographerRepository photographerRepository;
 
-    public void updatePhotographerSessions(Collection<Photographer> photographers){
-
-
-
-    }
-
 
     @Override
     protected CrudRepository<Photographer, Long> getRepository() {

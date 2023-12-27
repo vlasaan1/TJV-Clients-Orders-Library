@@ -1,11 +1,11 @@
 package cz.cvut.fit.tjv.foto.domain;
 
 import jakarta.persistence.*;
-
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@Table(name = "\"order\"")
 public class Order implements EntityWithId<Long> {
     @Id
     @GeneratedValue
@@ -15,6 +15,11 @@ public class Order implements EntityWithId<Long> {
     @ManyToOne
     private Customer author;
 
+    @ManyToMany
+    private Collection<Photographer> photographers;
+    private String message;
+//
+
     public Collection<Photographer> getPhotographers() {
         return photographers;
     }
@@ -22,12 +27,6 @@ public class Order implements EntityWithId<Long> {
     public void setPhotographers(Collection<Photographer> photographers) {
         this.photographers = photographers;
     }
-
-    @ManyToMany
-    private Collection<Photographer> photographers;
-    private String message;
-//
-
 
     public String getMessage() {
         return message;
