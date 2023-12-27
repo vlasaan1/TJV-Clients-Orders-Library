@@ -12,7 +12,6 @@ public abstract class PhotographerServiceImpl extends CrudServiceImpl<Photograph
 
     private PhotographerRepository photographerRepository;
 
-
     @Override
     protected CrudRepository<Photographer, Long> getRepository() {
         return photographerRepository;

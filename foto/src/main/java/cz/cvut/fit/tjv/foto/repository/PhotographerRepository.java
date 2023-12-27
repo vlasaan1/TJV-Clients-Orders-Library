@@ -14,15 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface PhotographerRepository extends CrudRepository<Photographer, Long> {
-    Optional<Collection<Photographer>> findAllById(Collection<Photographer> photographers);
-
+    //Optional<Collection<Photographer>> findAll(Collection<Photographer> photographers);
     //Collection<Photographer> findById(Long photographerId);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Photographer p SET p.sessions = :updatedSessions WHERE p = :photographer")
-    void updatePhotographerSessions(    @Param("photographer") Photographer photographer,
-                                        @Param("updatedSessions") Collection<Order> updatedSessions
-    );
 
 }

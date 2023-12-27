@@ -31,36 +31,15 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
         return orderRepository.findByPhotographers(photographerId);
     }
 
+
     @Override
     public Order createOrder(Order o) {
-        Optional<Order> optOrder = orderRepository.findById(o.getId());
-        Optional<Customer> optCustomer = customerRepository.findById(o.getAuthor().getId());
-        Optional <Collection<Photographer>> optPhotographers = photographerRepository.findAllById(o.getPhotographers());
-
-        if (optOrder.isEmpty() || optCustomer.isEmpty())
-            throw new IllegalArgumentException("invalid ID");
-
-        Order order = optOrder.get();
-        Customer customer = optCustomer.get();
-        Collection<Photographer> photographers = optPhotographers.get();
-
-        if (order.getAuthor().equals(customer))
-            throw new AuthorCannotCreateExistingOrder();
-//possibly add exception when the photographer included more times?
-        if (!(order.getPhotographers()).equals(photographers))
-                throw new IllegalArgumentException();
-        //how to check the date availability
-//
-        var resOrder = orderRepository.save(order);
-        customerRepository.save(customer);
-
-        for(Photographer photographer : resOrder.getPhotographers() ) {
-            Collection<Order> existingSessions = photographer.getSessions();
-            existingSessions.add(order);
-            photographerRepository.updatePhotographerSessions(photographer, existingSessions);
-
+        if(orderRepository.existsById(o.getId()) ||
+                !customerRepository.existsById(o.getAuthor().getId()) ||
+                o.getPhotographers().stream().allMatch(x -> photographerRepository.existsById(x.getId()))){
+            throw new IllegalArgumentException();
         }
-        return resOrder;
+        return orderRepository.save(o);
     }
 
 
