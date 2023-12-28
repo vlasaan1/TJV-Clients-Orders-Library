@@ -49,6 +49,12 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/{id}")
+    @Operation(description = "get order")
+    public Optional<Order> readById(@PathVariable Long id) {
+        return orderService.readById(id);
+    }
+
     @PutMapping("/{id}")
     @Operation(description = "change order info")
     @ApiResponses({
@@ -66,12 +72,6 @@ public class OrderController {
         }
     }
 
-
-    @GetMapping("/{id}")
-    @Operation(description = "get order")
-    public Optional<Order> readById(@PathVariable Long id) {
-        return orderService.readById(id);
-    }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id ){
