@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public abstract class PhotographerServiceImpl extends CrudServiceImpl<Photographer, Long> implements PhotographerService{
+public class PhotographerServiceImpl extends CrudServiceImpl<Photographer, Long> implements PhotographerService{
 
     private PhotographerRepository photographerRepository;
 

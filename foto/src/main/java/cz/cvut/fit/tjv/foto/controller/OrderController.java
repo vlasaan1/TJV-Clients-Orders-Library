@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.foto.controller;
 
+import cz.cvut.fit.tjv.foto.domain.Customer;
 import cz.cvut.fit.tjv.foto.domain.Order;
 import cz.cvut.fit.tjv.foto.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class OrderController {
     private final OrderService orderService;
     public OrderController(OrderService orderService){ this.orderService = orderService; }
+
     @GetMapping
     public Iterable<Order> readAllByAuthor(@RequestParam Optional<Long> author){
         if (author.isPresent())
@@ -25,12 +27,12 @@ public class OrderController {
         else
             return orderService.readAll();
     }
-/*
+
     @PostMapping
     @Operation(description = "create new order")
     @ApiResponses({
             @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "409", description = "duplicate username", content = @Content)
+            @ApiResponse(responseCode = "409", description = "duplicate order", content = @Content)
     })
     public Order create(@RequestBody Order data){
         try {
@@ -39,7 +41,9 @@ public class OrderController {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
     }
-    @PutMapping
+
+    @PutMapping("/{id}")
+    @Operation(description = "change order info")
     @ApiResponses({
             @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "404", description = "Order with given id does not exist", content=@Content),
@@ -47,15 +51,22 @@ public class OrderController {
     })
     public void change(@PathVariable Long id, @RequestBody Order data){
         try{
-            orderService.update(id,data);
+            orderService.update(id, data);
         } catch (IllegalArgumentException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } catch (IllegalStateException e){
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
-
     }
 
-    //@DeleteMapping
-*/
+
+    @GetMapping("/{id}")
+    @Operation(description = "get order")
+    public Optional<Order> readById(@PathVariable Long id) {
+        return orderService.readById(id);
+    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id ){orderService.deleteById(id);}
+
 }
