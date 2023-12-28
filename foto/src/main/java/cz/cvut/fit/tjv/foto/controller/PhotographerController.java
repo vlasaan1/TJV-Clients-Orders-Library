@@ -58,18 +58,31 @@ public class PhotographerController {
     }
 
     @PutMapping("/{id}")
-    @Operation(description = "change photographer info")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(description = "change info about photographer with specific id")
+    @Parameter(description = "id of photographer that should be changed")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "404", description = "hhotographer with given id does not exist", content=@Content),
+            @ApiResponse(responseCode = "409", description = "incorrect id - should equal id before change...photographercontroler", content=@Content)
+    })
     public void update(@PathVariable Long id, @RequestBody Photographer data) {
-        //
-        photographerService.update(id, data);
+        try{
+            photographerService.update(id, data);
+        } catch (IllegalArgumentException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } catch (IllegalStateException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
+
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "delete a photographer")
+    @Operation(description = "delete a photographer with specific id")
+    @Parameter(description = "id of product that should be deleted")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id ){
-        //
+//        Optional<Photographer> found = photographerService.readById(id);
+//        if(found.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         photographerService.deleteById(id);
     }
 

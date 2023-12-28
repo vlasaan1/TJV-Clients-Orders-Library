@@ -1,8 +1,10 @@
 package cz.cvut.fit.tjv.foto.controller;
 
 import cz.cvut.fit.tjv.foto.domain.Customer;
+import cz.cvut.fit.tjv.foto.domain.Photographer;
 import cz.cvut.fit.tjv.foto.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -43,13 +45,23 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "get customer")
-    public Optional<Customer> readById(@PathVariable Long id) {
-        return customerService.readById(id);
+    @Operation(description = "get customer with specific id")
+    @Parameter(description = "id of customer that is supposed to be returned")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "404", description = "customer with given id does not exist", content=@Content)
+    })
+    public Customer readById(@PathVariable Long id) {
+        Optional<Customer> found = customerService.readById(id);
+        if(found.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return found.get();
     }
 
+
+
+
     @PutMapping("/{id}´")
-    @Operation(description = "change customer info")
+    @Operation(description = "change info about customer with specific id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Long id, @RequestBody Customer data) {
         customerService.update(id, data);
@@ -57,7 +69,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "delete a customer")
+    @Operation(description = "delete a customer with specific id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id ){
         customerService.deleteById(id);
