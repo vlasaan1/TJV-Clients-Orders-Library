@@ -29,7 +29,7 @@ public class CustomerController {
     @Operation(description = "register new customer")
     @ApiResponses({
             @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "409", description = "duplicate username", content = @Content)
+            @ApiResponse(responseCode = "409", description = "duplicate username", content = @Content),
     })
     public Customer create(@RequestBody Customer data) {
         try {
@@ -45,7 +45,9 @@ public class CustomerController {
         customerService.update(id, data);
     }
 
-
+    //@DeleteMapping("/{id}")
+    //@ResponseStatus()
+    //public void delete(@PathVariable Long id ){customerService.deleteById(id);}
 
 
 }
