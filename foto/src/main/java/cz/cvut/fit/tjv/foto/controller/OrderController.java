@@ -1,8 +1,9 @@
 package cz.cvut.fit.tjv.foto.controller;
 
-import cz.cvut.fit.tjv.foto.domain.Customer;
 import cz.cvut.fit.tjv.foto.domain.Order;
+import cz.cvut.fit.tjv.foto.service.CustomerService;
 import cz.cvut.fit.tjv.foto.service.OrderService;
+import cz.cvut.fit.tjv.foto.service.PhotographerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +19,13 @@ import java.util.Optional;
 @RequestMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderController {
     private final OrderService orderService;
-    public OrderController(OrderService orderService){ this.orderService = orderService; }
+    private final CustomerService customerService;
+    private final PhotographerService photographerService;
+    public OrderController(OrderService orderService, CustomerService customerService, PhotographerService photographerService){
+        this.orderService = orderService;
+        this.customerService = customerService;
+        this.photographerService = photographerService;
+    }
 
     @GetMapping
     public Iterable<Order> readAllByAuthor(@RequestParam Optional<Long> author){
@@ -67,6 +74,10 @@ public class OrderController {
     }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id ){orderService.deleteById(id);}
+    public void delete(@PathVariable Long id ){
+        customerService.removeOrder(id);
+        photographerService.removeOrderFromSessions(id);
+        orderService.deleteById(id);
+    }
 
 }

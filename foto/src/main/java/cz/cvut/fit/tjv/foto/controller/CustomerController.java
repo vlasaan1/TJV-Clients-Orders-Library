@@ -48,17 +48,21 @@ public class CustomerController {
         return customerService.readById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}´")
     @Operation(description = "change customer info")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Long id, @RequestBody Customer data) {
         customerService.update(id, data);
+        //
     }
 
     @DeleteMapping("/{id}")
     @Operation(description = "delete a customer")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id ){customerService.deleteById(id);}
+    public void delete(@PathVariable Long id ){
+        customerService.deleteById(id);
+        //
+    }
 
 
 }

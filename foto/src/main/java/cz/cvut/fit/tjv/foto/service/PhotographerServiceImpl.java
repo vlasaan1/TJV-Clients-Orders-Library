@@ -17,5 +17,12 @@ public class PhotographerServiceImpl extends CrudServiceImpl<Photographer, Long>
         return photographerRepository;
     }
 
-
+    @Override
+    public void removeOrderFromSessions(Long orderId) {
+        Iterable<Photographer> photographers = photographerRepository.findAll();
+        for (Photographer photographer: photographers) {
+            photographer.getSessions().removeIf(order -> order.getId().equals(orderId));
+            photographerRepository.save(photographer);
+        }
+    }
 }

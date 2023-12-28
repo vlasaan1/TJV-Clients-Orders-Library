@@ -18,6 +18,15 @@ public class CustomerServiceImpl extends CrudServiceImpl<Customer, Long> impleme
         return customerRepository;
     }
 
+    @Override
+    public void removeOrder(Long orderId) {
+        Iterable<Customer> customers = customerRepository.findAll();
+        for (Customer customer : customers) {
+            customer.getMyOrders().removeIf(order -> order.getId().equals(orderId));
+            customerRepository.save(customer);
+        }
+    }
+
     //void deleteFromOrderAuthor(Long productId){}
 
 }

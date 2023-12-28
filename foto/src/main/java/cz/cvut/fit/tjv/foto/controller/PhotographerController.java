@@ -61,15 +61,16 @@ public class PhotographerController {
     @Operation(description = "change photographer info")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Long id, @RequestBody Photographer data) {
+        //
         photographerService.update(id, data);
     }
 
     @DeleteMapping("/{id}")
     @Operation(description = "delete a photographer")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id ){photographerService.deleteById(id);}
-
-
-
+    public void delete(@PathVariable Long id ){
+        //
+        photographerService.deleteById(id);
+    }
 
 }
