@@ -10,7 +10,11 @@ import java.util.Collection;
 @Service
 public class PhotographerServiceImpl extends CrudServiceImpl<Photographer, Long> implements PhotographerService{
 
-    private PhotographerRepository photographerRepository;
+    private final PhotographerRepository photographerRepository;
+
+    public PhotographerServiceImpl(PhotographerRepository photographerRepository) {
+        this.photographerRepository = photographerRepository;
+    }
 
     @Override
     protected CrudRepository<Photographer, Long> getRepository() {

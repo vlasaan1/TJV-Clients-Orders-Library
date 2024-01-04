@@ -60,7 +60,7 @@ public class CustomerController {
 
 
 
-    @PutMapping("/{id}´")
+    @PutMapping("/{id}")
     @Operation(description = "change info about customer with specific id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Long id, @RequestBody Customer data) {
