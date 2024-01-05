@@ -90,13 +90,16 @@ public class OrderController {
             //check if each included photographer is available on that date
             for(Long photographer : formData.getPhotographers()){
                 photographerService.setCurrentPhotographer(photographer);
+                //checking if photographer is present with server
                 if(photographerService.readOne().isEmpty()) {//NotFound
                     Collection<Photographer> allPhotographers = photographerService.readAll();
                     model.addAttribute("allPhotographers", allPhotographers);
                     model.addAttribute("error", true);
                     return "newOrder";
                 }
+                //ask server for info about photographer, set up
                 Photographer photographerVar = new Photographer(photographerService.readOne().get().getId(),photographerService.readOne().get().getName(), photographerService.readOne().get().getPhoneNumber(), photographerService.readOne().get().getSessions());
+                //if photographer is already on a different job that day, he is unavailable
                 for(Order o : photographerVar.getSessions()) {
                     if (o.getDate().equals(formData.getDate())) {//Conflict
                         Collection<Photographer> allPhotographers = photographerService.readAll();
@@ -106,8 +109,9 @@ public class OrderController {
                     }
                 }
             }
+            //if everything is okay on the server, try to create the order
             orderService.create(formData);
-        } catch (HttpClientErrorException.NotFound e) {
+        } catch (HttpClientErrorException.NotFound e) {//author
             Collection<Photographer> allPhotographers = photographerService.readAll();
             model.addAttribute("allPhotographers", allPhotographers);
             model.addAttribute("error", true);

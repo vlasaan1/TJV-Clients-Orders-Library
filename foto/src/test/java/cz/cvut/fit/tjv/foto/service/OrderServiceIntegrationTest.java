@@ -13,8 +13,5 @@ import java.util.HashSet;
 
 public class OrderServiceIntegrationTest {
 
-/// operace/dotaz???? findByCostBetween
 
-
-
-    }
+}
