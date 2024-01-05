@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -18,36 +19,32 @@ public class OrderRepositoryTest {
         private OrderRepository orderRepository;
         @Autowired
         private CustomerRepository customerRepository;
-//        @Autowired
-//        private PhotographerRepository photographerRepository
         @Test
-        void findByAuthorUsername() {
+        void findByCostBetweenTest() {
             var c1 = new Customer();
             var c2 = new Customer();
             var o1 = new Order();
             var o2 = new Order();
             var o3 = new Order();
-//            var p1 = new Photographer();
-//            var p2 = new Photographer();
+            var o4 = new Order();
             c1.setId(2L);
             c2.setId(3L);
             o1.setId(1L);
+            o1.setCost(10L);
             o2.setId(2L);
+            o2.setCost(20L);
             o3.setId(3L);
-//            p1.setId(4L);
-//            p2.setId(2L);
+            o3.setCost(30L);
+            o4.setId(4L);
+            o4.setCost(40L);
             o1.setAuthor(c1);
             o2.setAuthor(c1);
             o3.setAuthor(c2);
-            //o3.setPhotographers((Collection<Photographer>) p1);
-//        u2.setMyPosts(List.of(p3));
             customerRepository.saveAll(List.of(c1, c2));
-            orderRepository.saveAll(List.of(o1, o2, o3));
-//            photographerRepository.saveAll(List.of(p1, p2));
+            orderRepository.saveAll(List.of(o1, o2, o3, o4));
+            var res = orderRepository.findByCostBetween(15L, 35L);
 
-            var res = orderRepository.findByAuthorId(c1.getId());
-            Assertions.assertIterableEquals(List.of(o1, o2), res);
+            Assertions.assertIterableEquals(List.of(o2, o3), res);
         }
-
 
 }

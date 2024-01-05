@@ -6,9 +6,15 @@ import java.util.Collection;
 
 public interface OrderService extends CrudService<Order, Long> {
     Collection<Order> readAllByAuthorId(Long userId);
-    Collection<Order> readAllByPhotographerId(Long photographerId);
+    Collection<Order> readAllByCostBetween(Long min, Long max);
+    @Override
+    void deleteById(Long aLong);
 
-    Order createOrder(Order o) throws AuthorCannotCreateExistingOrder;
+//    @Override
+//    Order create(Order e);
 
-    //delete orders 
+    //Collection<Order> readAllByPhotographerId(Long photographerId);
+    //implementation of the check on client
+    //Order createOrder(Order o) throws AuthorCannotCreateExistingOrder;
+
 }

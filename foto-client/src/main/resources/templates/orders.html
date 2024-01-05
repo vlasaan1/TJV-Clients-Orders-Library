@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FOTO</title>
+</head>
+<body>
+<nav>
+    <a href="/">Welcome</a> |
+    <a href="/customers">Customer management</a> |
+    <a href="/customers/registration">Customer registration</a> |
+    <a href="/photographers">Photographer management</a> |
+    <a href="/photographers/registrationPhoto">Photographer Registration</a> |
+    <a href="/orders">Order management</a> |
+    <a href="/orders/newOrder">New order </a>
+</nav>
+<main>
+    <div th:if="${error}">
+        <span>ERROR</span>
+    </div>
+    <h2>filter orders</h2>
+    <form method="get" th:action="@{/orders}" th:object="${range}">
+        <div>
+            <label for="costMin">Minimal cost in czk: </label>
+            <input type="number" id="costMin" name="min" min="0" max="2147483647" value="0" th:field="*{min}" required/>
+            <label for="costMax">Maximum cost in czk: </label>
+            <input type="number" id="costMax" name="max" min="0" max="2147483647" value="1000000000" th:field="*{max}" required/>
+        </div>
+        <input type="submit" value="filter"/>
+    </form>
+    <h1>order management</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Author</th>
+            <th>Cost</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u: ${allOrders}">
+            <td th:text="${u.id}">test</td>
+            <td th:text="${u.date}">15. 1. 2024</td>
+            <td th:text="${u.author.id}">I am Author</td>
+            <td th:text="${u.cost}">1000 czk</td>
+
+            <td><a href="#" th:href="@{/orders/display(id=${u.id})}">display</a></td>
+            <td><a href="#" th:href="@{/orders/edit(id=${u.id})}">edit</a></td>
+            <td><a href="#" th:href="@{/orders/delete(id=${u.id})}" style="color: red;">delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

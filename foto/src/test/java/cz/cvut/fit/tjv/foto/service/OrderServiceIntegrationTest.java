@@ -13,40 +13,7 @@ import java.util.HashSet;
 
 public class OrderServiceIntegrationTest {
 
-    @SpringBootTest
-    class PostServiceImplIntegrationTest {
-        @Autowired
-        private OrderServiceImpl orderService;
-        @Autowired
-        private OrderRepository orderRepository;
-        @Autowired
-        private CustomerRepository customerRepository;
-        @Autowired
-        private PhotographerRepository photographerRepository;
-        Customer customer;
-        Customer author;
-        Order order;
-
-        @BeforeEach
-        void setUp() {
-            orderRepository.deleteAll();
-            customerRepository.deleteAll();
-            photographerRepository.deleteAll();
-            customer = new Customer();
-            author = new Customer();
-            order = new Order();
-            customer.setId(1L);
-            customer.setMyOrders(new HashSet<>());
-            author.setId(2L);
-            order.setId(126L);
-            order.setAuthor(author);
-
-            customerRepository.save(author);
-            customerRepository.save(customer);
-            orderRepository.save(order);
-        }
-
-/// operace/dotaz????
+/// operace/dotaz???? findByCostBetween
 
 
 

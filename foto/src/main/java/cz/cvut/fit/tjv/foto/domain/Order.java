@@ -1,5 +1,7 @@
 package cz.cvut.fit.tjv.foto.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -11,15 +13,17 @@ public class Order implements EntityWithId<Long> {
     @GeneratedValue
     private Long id;
     private String date;
-    private String cost;
+    private Long cost;
     @ManyToOne
+    @JsonIgnoreProperties(value = "myOrders")
     private Customer author;
 
     @ManyToMany
+    @JsonIgnoreProperties(value = "sessions")
     private Collection<Photographer> photographers;
     private String message;
-//
 
+//
     public Collection<Photographer> getPhotographers() {
         return photographers;
     }
@@ -48,11 +52,11 @@ public class Order implements EntityWithId<Long> {
         this.date = date;
     }
 
-    public String getCost() {
+    public Long getCost() {
         return cost;
     }
 
-    public void setCost(String cost) {
+    public void setCost(Long cost) {
         this.cost = cost;
     }
 
@@ -63,9 +67,6 @@ public class Order implements EntityWithId<Long> {
     public void setAuthor(Customer author) {
         this.author = author;
     }
-
-
-
 
 
 
@@ -89,6 +90,14 @@ public class Order implements EntityWithId<Long> {
         this.author = Objects.requireNonNull(author);
     }
 
+    public Order(Long id, Long cost, String date, String message, Customer customer, Collection<Photographer> photographers) {
+        this.id=id;
+        this.author=customer;
+        this.cost=cost;
+        this.date=date;
+        this.message=message;
+        this.photographers=photographers;
+    }
 
     @Override
     public Long getId() {

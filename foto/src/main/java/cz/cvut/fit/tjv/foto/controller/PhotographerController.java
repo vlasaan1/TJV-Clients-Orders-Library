@@ -79,9 +79,17 @@ public class PhotographerController {
     @DeleteMapping("/{id}")
     @Operation(description = "delete a photographer with specific id")
     @Parameter(description = "id of product that should be deleted")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400", description = "Cannot delete photographer, with unfinished orders", content=@Content)
+    })
     public void delete(@PathVariable Long id ){
-        photographerService.deleteById(id);
+        try {
+            photographerService.deleteById(id);
+        }
+        catch (IllegalArgumentException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
