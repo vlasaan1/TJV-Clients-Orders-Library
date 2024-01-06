@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @Component
 public class CustomerClient {
-    private String baseUrl;
-    private RestClient customerRestClient;
+    private final String baseUrl;
+    private final RestClient customerRestClient;
     private RestClient currentCustomerRestClient;
 
 

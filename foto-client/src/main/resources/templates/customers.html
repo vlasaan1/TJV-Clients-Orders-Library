@@ -32,6 +32,7 @@
             <td th:text="${u.id}">test</td>
             <td th:text="${u.name}">I Am Nobody</td>
             <td th:text="${u.phoneNumber}">906 111 666</td>
+
             <td><a href="#" th:href="@{/customers/edit(id=${u.id})}">edit</a></td>
             <td><a href="#" th:href="@{/customers/delete(id=${u.id})}" style="color: red;" >delete</a></td>
         </tr>

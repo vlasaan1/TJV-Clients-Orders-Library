@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/photographers")
 public class PhotographerController {
-    private PhotographerService photographerService;
+    private final PhotographerService photographerService;
 
     public PhotographerController(PhotographerService photographerService){
         this.photographerService = photographerService;

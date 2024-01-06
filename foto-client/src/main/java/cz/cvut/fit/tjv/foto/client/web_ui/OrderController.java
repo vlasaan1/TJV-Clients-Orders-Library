@@ -31,26 +31,6 @@ public class OrderController {
         return "orders";
     }
 
-//    @GetMapping("/filter")
-//    public String showFilter(Model model, @ModelAttribute Range range){
-//        model.addAttribute("range",range);
-//        return "filterOrder";
-//    }
-//
-//    @PostMapping("/filter")
-//    public String submitFilter(@ModelAttribute Range range, Model model){
-//        var all = orderService.readAll(range);
-//        model.addAttribute("allProducts",all);
-//        model.addAttribute("range",range);
-//        return "orders";
-//    }
-
-//    @GetMapping("/filter/range")
-//    public String showRange(Model model, @ModelAttribute OrderDto formData){
-//        return "filterOrder";
-//    }
-
-
     @GetMapping("/edit")
     public String showForm(@RequestParam Long id, Model model){
         orderService.setCurrentOrder(id);

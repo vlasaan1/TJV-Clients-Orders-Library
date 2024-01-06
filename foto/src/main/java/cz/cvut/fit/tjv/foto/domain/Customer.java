@@ -13,7 +13,6 @@ public class Customer implements EntityWithId<Long> {
     @GeneratedValue
     private Long id;
     private String name;
-    //unsure about this attribute
     private String phoneNumber;
     @OneToMany(mappedBy = "author", orphanRemoval = true)
     private Collection<Order> myOrders = new HashSet<>();

@@ -38,8 +38,6 @@ public class OrderClient {
             );
         } catch (HttpClientErrorException.NotFound e) {
             return Optional.empty();
-//        } catch (RestClientResponseException e) {
-//            if (e.getStatusCode().)
         }
     }
 

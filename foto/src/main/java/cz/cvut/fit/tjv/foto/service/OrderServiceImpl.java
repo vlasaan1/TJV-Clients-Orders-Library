@@ -43,8 +43,6 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
     public void deleteById(Long orderId) {
          Iterable<Photographer> photographers = photographerRepository.findAll();
         for (Photographer photographer: photographers) {
-//            photographer.getSessions().removeIf(order -> order.getId().equals(orderId));
-//            photographerRepository.save(photographer);
             Collection<Order> sessions = new HashSet<>(photographer.getSessions());
             sessions.removeIf(order -> order.getId().equals(orderId));
             photographer.setSessions(sessions);
@@ -52,8 +50,6 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
         }
         Iterable<Customer> customers = customerRepository.findAll();
         for (Customer customer: customers) {
-//            customer.getMyOrders().removeIf(order -> order.getId().equals(orderId));
-//            customerRepository.save(customer);
             Collection<Order> myOrders = new HashSet<>(customer.getMyOrders());
             myOrders.removeIf(order -> order.getId().equals(orderId));
             customer.setMyOrders(myOrders);
