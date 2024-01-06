@@ -15,9 +15,6 @@
     <a href="/orders/newOrder">New order </a>
 </nav>
 <main>
-    <div th:if="${error}">
-        <span>ERROR</span>
-    </div>
     <h1>photographer management</h1>
     <table>
         <thead>
@@ -34,9 +31,13 @@
             <td th:text="${u.phoneNumber}">906 111 666</td>
 
             <td><a href="#" th:href="@{/photographers/edit(id=${u.id})}">edit</a></td>
+            <td><a href="#" th:href="@{/photographers/delete(id=${u.id})}" style="color: red;" >delete</a></td>
         </tr>
         </tbody>
     </table>
+    <div th:if="${error}">
+        <b><span>Cannot delete photographer with work on a order</span></b>
+    </div>
 </main>
 </body>
 </html>

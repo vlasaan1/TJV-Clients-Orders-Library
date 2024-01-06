@@ -6,8 +6,10 @@ import cz.cvut.fit.tjv.foto.domain.Photographer;
 import cz.cvut.fit.tjv.foto.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -31,41 +33,32 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
         return orderRepository.findByCostBetween(min, max);
     }
 
-//    @Override
-//    public Order create(Order e) {
-//        if (getRepository().existsById(e.getId())) {
-//            throw new IllegalArgumentException();
-//        }
-//        var orders = e.getAuthor().getMyOrders();
-//        if (orders.stream().anyMatch(x -> x.getAuthor().getId().equals(e.getAuthor().getId()))) {
-//            throw new UnsupportedOperationException();
-//        }
-//        var res = getRepository().save(e);
-//
-//        photographerRepository.updateMyOrders(e.getAuthor().getId(), e);
-//        for(Photographer photographer : e.getPhotographers()) {
-//            customerRepository.updateSessions(photographer.getId(), e);
-//        }
-//        return res;
-//
-//    }
-
     @Override
     protected CrudRepository<Order, Long> getRepository() {
         return orderRepository;
     }
 
+    @Transactional
     @Override
     public void deleteById(Long orderId) {
-        Iterable<Photographer> photographers = photographerRepository.findAll();
+         Iterable<Photographer> photographers = photographerRepository.findAll();
         for (Photographer photographer: photographers) {
-            photographer.getSessions().removeIf(order -> order.getId().equals(orderId));
+//            photographer.getSessions().removeIf(order -> order.getId().equals(orderId));
+//            photographerRepository.save(photographer);
+            Collection<Order> sessions = new HashSet<>(photographer.getSessions());
+            sessions.removeIf(order -> order.getId().equals(orderId));
+            photographer.setSessions(sessions);
             photographerRepository.save(photographer);
         }
         Iterable<Customer> customers = customerRepository.findAll();
         for (Customer customer: customers) {
-            customer.getMyOrders().removeIf(order -> order.getId().equals(orderId));
+//            customer.getMyOrders().removeIf(order -> order.getId().equals(orderId));
+//            customerRepository.save(customer);
+            Collection<Order> myOrders = new HashSet<>(customer.getMyOrders());
+            myOrders.removeIf(order -> order.getId().equals(orderId));
+            customer.setMyOrders(myOrders);
             customerRepository.save(customer);
+
         }
         orderRepository.deleteById(orderId);
     }

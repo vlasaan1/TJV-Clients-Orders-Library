@@ -8,6 +8,4 @@ public class FotoAppMain {
         public static void main(String[] args) {
             SpringApplication.run(FotoAppMain.class, args);
         }
-    }
-
-//pokud json musi neco jineho davat - DTO v controller - data to object
+}

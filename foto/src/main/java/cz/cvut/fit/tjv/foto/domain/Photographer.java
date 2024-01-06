@@ -11,10 +11,10 @@ public class Photographer implements EntityWithId<Long> {
     private Long id;
     private String name;
     private String phoneNumber;
-
-    //collection of orders - dates
     @ManyToMany(mappedBy = "photographers")
     private Collection<Order> sessions;
+
+
     public Collection<Order> getSessions() {
         return sessions;
     }
@@ -22,7 +22,6 @@ public class Photographer implements EntityWithId<Long> {
     public void setSessions(Collection<Order> sessions) {
         this.sessions = sessions;
     }
-
 
     public Long getId() { return id; }
     public void setId(Long id) {

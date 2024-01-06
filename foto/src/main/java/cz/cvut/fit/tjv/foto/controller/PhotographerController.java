@@ -1,11 +1,14 @@
 package cz.cvut.fit.tjv.foto.controller;
 
 import cz.cvut.fit.tjv.foto.domain.Customer;
+import cz.cvut.fit.tjv.foto.domain.Order;
 import cz.cvut.fit.tjv.foto.domain.Photographer;
 import cz.cvut.fit.tjv.foto.service.PhotographerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
@@ -23,17 +26,19 @@ public class PhotographerController {
     public PhotographerController(PhotographerService photographerService){this.photographerService=photographerService;}
 
     @GetMapping
-    @Operation(description = "get all photographers")
-    @ApiResponse(responseCode = "404", description = "no photographer registered in the system", content=@Content)
+    @Operation(description = "return all photographers")
+    @ApiResponses(value = { @ApiResponse( content = {
+            @Content( mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Order.class)))})})
     public Iterable<Photographer> readAll() {
             return photographerService.readAll();
     }
 
     @PostMapping
     @Operation(description = "register new photographer")
+    @Parameter(description = "data of a photographer that is supposed to be created")
     @ApiResponses({
             @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "409", description = "duplicate customer", content = @Content),
+            @ApiResponse(responseCode = "409", description = "duplicate customer cannot be created", content = @Content),
     })
     public Photographer create(@RequestBody Photographer data) {
         try {
@@ -45,7 +50,7 @@ public class PhotographerController {
 
 
     @GetMapping("/{id}")
-    @Operation(description = "get photographer")
+    @Operation(description = "get photographer with specific id")
     @Parameter(description = "id of photographer that is supposed to be returned")
     @ApiResponses({
             @ApiResponse(responseCode = "200"),
@@ -60,10 +65,11 @@ public class PhotographerController {
     @PutMapping("/{id}")
     @Operation(description = "change info about photographer with specific id")
     @Parameter(description = "id of photographer that should be changed")
+    @Parameter(description = "new data of the photographer that is supposed to be changed")
     @ApiResponses({
             @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "404", description = "photographer with given id does not exist", content=@Content),
-            @ApiResponse(responseCode = "409", description = "incorrect id - should equal id before change...photographercontroler", content=@Content)
+            @ApiResponse(responseCode = "409", description = "incorrect id - should equal id before change", content=@Content)
     })
     public void update(@PathVariable Long id, @RequestBody Photographer data) {
         try{
@@ -81,7 +87,7 @@ public class PhotographerController {
     @Parameter(description = "id of product that should be deleted")
     @ApiResponses({
             @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "400", description = "Cannot delete photographer, with unfinished orders", content=@Content)
+            @ApiResponse(responseCode = "400", description = "cannot delete photographer with orders", content=@Content),
     })
     public void delete(@PathVariable Long id ){
         try {

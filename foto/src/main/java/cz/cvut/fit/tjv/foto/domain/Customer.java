@@ -31,7 +31,6 @@ public class Customer implements EntityWithId<Long> {
         return Objects.hash(id);
     }
 
-
     @Override
     public Long getId() {
         return id;

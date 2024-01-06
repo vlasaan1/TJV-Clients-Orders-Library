@@ -42,9 +42,31 @@ public class OrderRepositoryTest {
             o3.setAuthor(c2);
             customerRepository.saveAll(List.of(c1, c2));
             orderRepository.saveAll(List.of(o1, o2, o3, o4));
-            var res = orderRepository.findByCostBetween(15L, 35L);
 
-            Assertions.assertIterableEquals(List.of(o2, o3), res);
+            var resMiddle = orderRepository.findByCostBetween(15L, 35L);
+            Assertions.assertIterableEquals(List.of(o2, o3), resMiddle);
+
+            var resAll = orderRepository.findByCostBetween(10L, 40L);
+            Assertions.assertIterableEquals(List.of(o1, o2, o3, o4), resAll);
+
+            var resHalf = orderRepository.findByCostBetween(0L, 20L);
+            Assertions.assertIterableEquals(List.of(o1, o2), resHalf);
+
+            var res2ndHalf = orderRepository.findByCostBetween(30L, 70L);
+            Assertions.assertIterableEquals(List.of(o3, o4), res2ndHalf);
+
+            var o5 = new Order();
+            o5.setId(5L);
+            o5.setCost(99L);
+            o5.setAuthor(c2);
+            orderRepository.saveAll(List.of(o5));
+
+            var none = orderRepository.findByCostBetween(100L, 400L);
+            Assertions.assertIterableEquals(List.of(), none);
+
+            var one = orderRepository.findByCostBetween(99L, 400L);
+            Assertions.assertIterableEquals(List.of(o5), one);
+
         }
 
 }

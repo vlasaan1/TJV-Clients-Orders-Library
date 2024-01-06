@@ -17,13 +17,12 @@ public class Order implements EntityWithId<Long> {
     @ManyToOne
     @JsonIgnoreProperties(value = "myOrders")
     private Customer author;
-
     @ManyToMany
     @JsonIgnoreProperties(value = "sessions")
     private Collection<Photographer> photographers;
     private String message;
 
-//
+
     public Collection<Photographer> getPhotographers() {
         return photographers;
     }
@@ -68,22 +67,6 @@ public class Order implements EntityWithId<Long> {
         this.author = author;
     }
 
-
-
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        return Objects.equals(id, order.id);
-    }
-
     public Order() {
     }
     public Order(Customer author) {
@@ -97,6 +80,19 @@ public class Order implements EntityWithId<Long> {
         this.date=date;
         this.message=message;
         this.photographers=photographers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) && Objects.equals(date, order.date) && Objects.equals(cost, order.cost) && Objects.equals(author, order.author) && Objects.equals(photographers, order.photographers) && Objects.equals(message, order.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, cost, author, photographers, message);
     }
 
     @Override

@@ -23,7 +23,6 @@ public class PhotographerServiceImpl extends CrudServiceImpl<Photographer, Long>
         return photographerRepository;
     }
 
-
     @Override
     public void deleteById(Long id) {
         Iterable<Order> orders = orderRepository.findByPhotographers(id);

@@ -14,7 +14,4 @@ import java.util.Optional;
 
 @Repository
 public interface PhotographerRepository extends CrudRepository<Photographer, Long> {
-    //Optional<Collection<Photographer>> findAll(Collection<Photographer> photographers);
-    //Collection<Photographer> findById(Long photographerId);
-
 }

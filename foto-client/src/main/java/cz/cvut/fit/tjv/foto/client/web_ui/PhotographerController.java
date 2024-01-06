@@ -75,7 +75,10 @@ public class PhotographerController {
         try {
             photographerService.delete();
         } catch (HttpClientErrorException.BadRequest e) {
+            var all = photographerService.readAll();
+            model.addAttribute("allPhotographers", all);
             model.addAttribute("error", true);
+            return "photographers";
         }
         return "redirect:/photographers";
     }

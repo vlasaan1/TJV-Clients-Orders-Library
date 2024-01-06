@@ -10,11 +10,4 @@ public interface OrderService extends CrudService<Order, Long> {
     @Override
     void deleteById(Long aLong);
 
-//    @Override
-//    Order create(Order e);
-
-    //Collection<Order> readAllByPhotographerId(Long photographerId);
-    //implementation of the check on client
-    //Order createOrder(Order o) throws AuthorCannotCreateExistingOrder;
-
 }
