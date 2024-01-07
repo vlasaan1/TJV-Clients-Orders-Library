@@ -133,7 +133,7 @@ public class OrderServiceImplUnitTest {
         customerRepository.save(customer);
         photographerRepository.save(photographer);
         orderRepository.save(order);
-
+    //would check if its added and if it was deleted
 
 //        Customer persistedCustomer = customerRepository.findById(customer.getId()).orElseThrow();
 //        Order persistedOrder = orderRepository.findById(testOrder.getId()).orElseThrow();
