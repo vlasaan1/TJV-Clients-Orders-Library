@@ -32,5 +32,5 @@ Klient
 - Customer,Photographer registration 
     - možnost vytvořit nového zákazníka/fotografa
 - New Order 
-    - možnost vytvořit novou objednávku
+    - možnost vytvořit novou objednávku, pro objednání více fotografů - vybrat s ctrl(po jednom), nebo ctrl+shift(několik pod sebou)
 
