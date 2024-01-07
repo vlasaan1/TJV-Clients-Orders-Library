@@ -14,4 +14,10 @@ import java.util.Optional;
 
 @Repository
 public interface PhotographerRepository extends CrudRepository<Photographer, Long> {
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Photographer p WHERE :order MEMBER OF p.sessions")
+    void deleteSessionsByOrder(Order order);
+
 }
