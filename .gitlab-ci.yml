@@ -1,0 +1,24 @@
+stages:
+    - build
+
+server:
+    stage: build
+    image: eclipse-temurin:17
+    script:
+        - cd foto
+        - ./gradlew build
+    artifacts:
+        name: "server"
+        paths:
+            - "**/libs/foto-1.0.jar"
+
+client:
+    stage: build
+    image: eclipse-temurin:17
+    script:
+        - cd foto-client
+        - ./gradlew build
+    artifacts:
+        name: "client"
+        paths:
+             - "**/libs/foto-client-1.0.jar"
