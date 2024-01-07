@@ -105,7 +105,7 @@ public class OrderController {
         orderService.setCurrentOrder(id);
         var order = orderService.readOne().get();
         model.addAttribute("order", order);
-        return "/displayOrder";
+        return "displayOrder";
     }
 
     @GetMapping("/delete")
