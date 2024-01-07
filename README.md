@@ -9,10 +9,8 @@ Webový klient také umožňuje provádět všechny CRUD operace na všech entit
 
 Zdrojový kód k serverové části se nachází uvnitř složky foto, zdrojový kód klienta se nachází ve složce foto-client.
 
-Ke spuštění aplikace je potřeba zkompilované soubory .jar stáhnout. Ty se nacházejí:
-- /foto/build/libs/foto-1.0.jar
-- /foto-client/build/libs/foto-client-0.0.1-SNAPSHOT.jar
-Spuštění .jar souborů serveru a klienta je poté možné pomocí ("java -jar foto-1.0.jar", "java -jar foto-client-0.0.1-SNAPSHOT.jar").
+Ke spuštění aplikace je potřeba zkompilované soubory .jar stáhnout. To lze z artefaktů pipeline. 
+Spuštění .jar souborů serveru a klienta je poté možné pomocí ("java -jar jmenoSouboru.jar").
 
 Server se nachází na adrese - http://localhost:8080/
 Webový klient se nachází na adrese - http://localhost:9080/
