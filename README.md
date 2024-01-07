@@ -2,7 +2,9 @@
 FOTO 
 
 Databáze obsahuje 3 entity - Customer, Photographer a Order.
+
 Serverové API na všech entitách zpřístupňuje CRUD operace a dotaz, který umožňuje vyhledávat objednávky v zadaném cenovém rozmezí. 
+
 Webový klient také umožňuje provádět všechny CRUD operace na všech entitách a komplexní operaci objednání objednávky. (kontrola existence a dostupnosti všech požadovaných fotografů, přidání k uživateli a zúčasněným fotografům)
 
 Zdrojový kód k serverové části se nachází uvnitř složky foto, zdrojový kód klienta se nachází ve složce foto-client.
