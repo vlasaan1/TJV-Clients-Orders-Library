@@ -18,3 +18,19 @@ Webový klient se nachází na adrese - http://localhost:9080/
 Dokumentace je po spuštění na adrese - http://localhost:8080/swagger-ui/index.html
 
 Pokud dojde k úspěšnému spuštění (pomocí java -jar ...),znamená to, že v testech nedošlo k problému, jelikož jsou automaticky spuštěny během kompilace.
+
+----
+Klient
+- Welcome
+    - úvod
+- Customer,Photographer management 
+    - zobrazí všechny zákazníky/fotografy
+    - lze upravit - lze editovat či smazat, smazat fotografa lze pokud je splněna podmínka, že nemá zadanou práci
+- Order management 
+    - zobrazí všechny objednávky, nebo lze filtrovat zobrazení objednávek podle rozmezí ceny
+    - lze editovat, smazat a zobrazit si objednávku včetně informací o fotografech a zpráv
+- Customer,Photographer registration 
+    - možnost vytvořit nového zákazníka/fotografa
+- New Order 
+    - možnost vytvořit novou objednávku
+
