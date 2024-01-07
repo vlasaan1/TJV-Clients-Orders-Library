@@ -41,20 +41,9 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long> implements Or
     @Transactional
     @Override
     public void deleteById(Long orderId) {
-         Iterable<Photographer> photographers = photographerRepository.findAll();
-        for (Photographer photographer: photographers) {
-            Collection<Order> sessions = new HashSet<>(photographer.getSessions());
-            sessions.removeIf(order -> order.getId().equals(orderId));
-            photographer.setSessions(sessions);
-            photographerRepository.save(photographer);
-        }
-        Iterable<Customer> customers = customerRepository.findAll();
-        for (Customer customer: customers) {
-            Collection<Order> myOrders = new HashSet<>(customer.getMyOrders());
-            myOrders.removeIf(order -> order.getId().equals(orderId));
-            customer.setMyOrders(myOrders);
-            customerRepository.save(customer);
-
+        Optional<Order> orderX = orderRepository.findById(orderId);
+        if(orderX.isPresent()) {
+            photographerRepository.deleteSessionsByOrder(orderX.get());
         }
         orderRepository.deleteById(orderId);
     }
