@@ -59,7 +59,7 @@ public class CustomerControllerMvcTest {
                                 "  \"id\" : 1 \n" +
                                 "}"))
                 .andExpect(MockMvcResultMatchers.status().isConflict())  // Expect HTTP 409 Conflict
-                .andExpect(MockMvcResultMatchers.content().string(""))  // No content in response body
+                .andExpect(MockMvcResultMatchers.content().string(""))
 
                 .andExpect(result -> {
                     Mockito.verify(customerService, Mockito.atLeastOnce()).create(testCustomer);
