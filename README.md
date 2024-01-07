@@ -1,4 +1,4 @@
-# TJV semestrální úkol
+# TJV semestrální projekt
 FOTO 
 
 Databáze obsahuje 3 entity - Customer, Photographer a Order.
