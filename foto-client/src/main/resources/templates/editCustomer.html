@@ -20,9 +20,9 @@
         <input type="hidden" th:field="*{id}"/>
         <div>
             <label for="name">Name: </label>
-            <input type="text" id="name" th:field="*{name}" required/>
+            <input type="text" id="name" maxlength="254" th:field="*{name}" required/>
             <label for="phoneNumber">Phone number: </label>
-            <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" required/>
+            <input type="tel" id="phoneNumber" min="0" max="2147483647" th:field="*{phoneNumber}" required/>
         </div>
         <div th:if="${error}">
             <span> <b> ERROR - Incorrect format of phone number.</b> </span>

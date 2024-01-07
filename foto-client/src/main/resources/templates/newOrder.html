@@ -24,11 +24,11 @@
                 <label for="date">Date: </label>
                 <input type="date" id="date"th:field="*{date}" required/>
                 <label for="author">Author: </label>
-                <input type="number" id="author" th:field="*{author}" required/>
+                <input type="number" id="author" min="0" max="2147483647" th:field="*{author}" required/>
                 <label for="cost">Cost in czk: </label>
                 <input type="number" id="cost" min="0" max="2147483647" th:field="*{cost}" required/>
                 <label for="message">Message: </label>
-                <input type="text" id="message" th:field="*{message}"/>
+                <input type="text" id="message" maxlength="254" th:field="*{message}" />
                 <!-- photographers -->
                 <label for="photographers">Photographers: </label>
                 <select id="photographers" name="photographers" multiple th:field="*{photographers}">

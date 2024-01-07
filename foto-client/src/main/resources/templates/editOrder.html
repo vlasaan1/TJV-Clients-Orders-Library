@@ -29,7 +29,7 @@
             <label for="cost">Cost in czk: </label>
             <input type="number" id="cost" min="0" max="2147483647" th:field="*{cost}" required/>
             <label for="message">Message: </label>
-            <input type="text" id="message" th:field="*{message}"/>
+            <input type="text" id="message" maxlength="254" th:field="*{message}" />
         </div>
         <input type="submit" value="edit"/>
     </form>

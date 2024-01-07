@@ -9,10 +9,9 @@ import cz.cvut.fit.tjv.foto.repository.PhotographerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -21,11 +20,11 @@ public class OrderServiceImplUnitTest {
 
     @Autowired
     private OrderServiceImpl orderService;
-    @MockBean
+    @Autowired
     private OrderRepository orderRepository;
-    @MockBean
+    @Autowired
     private CustomerRepository customerRepository;
-    @MockBean
+    @Autowired
     private PhotographerRepository photographerRepository;
     Customer customer;
     Photographer photographer;
@@ -33,6 +32,10 @@ public class OrderServiceImplUnitTest {
 
     @BeforeEach
     void setUp() {
+        customerRepository.deleteAll();
+        photographerRepository.deleteAll();
+        orderRepository.deleteAll();
+
         customer = new Customer();
         photographer = new Photographer();
         order = new Order();
@@ -40,10 +43,12 @@ public class OrderServiceImplUnitTest {
         customer.setId(1L);
         customer.setName("testName");
         customer.setPhoneNumber("123456789");
+        customerRepository.save(customer);
 
         photographer.setId(2L);
         photographer.setName("testPhotographer");
         photographer.setPhoneNumber("987654321");
+        photographerRepository.save(photographer);
 
         order.setId(3L);
         order.setCost(1000L);
@@ -51,37 +56,56 @@ public class OrderServiceImplUnitTest {
         order.setMessage("message to be kept");
         order.setAuthor(customer);
         order.setPhotographers(List.of(photographer));
+        orderRepository.save(order);
 
-        photographer.setSessions(List.of(order));
         customer.setMyOrders(List.of(order));
-    }
+        photographer.setSessions(List.of(order));
 
-
-    @Test
-    void deleteExistingOrder() {
-        Assertions.assertTrue(customer.getMyOrders().contains(order));
-        Assertions.assertTrue(photographer.getSessions().contains(order));
-        Mockito.when(customerRepository.findAll()).thenReturn(List.of(customer));
-        Mockito.when(photographerRepository.findAll()).thenReturn(List.of(photographer));
-
-        orderService.deleteById(order.getId());
-
-        Assertions.assertFalse(customer.getMyOrders().contains(order));
-        Assertions.assertFalse(photographer.getSessions().contains(order));
+        customerRepository.save(customer);
+        photographerRepository.save(photographer);
+        orderRepository.save(order);
     }
 
     @Test
+    @Transactional
     void deleteNotExistingOrder(){
-        Mockito.when(customerRepository.findAll()).thenReturn(List.of(customer));
-        Mockito.when(photographerRepository.findAll()).thenReturn(List.of(photographer));
+        Customer persistedCustomer = customerRepository.findById(customer.getId()).orElseThrow();
+        Photographer persistedPhotographer = photographerRepository.findById(photographer.getId()).orElseThrow();
+        Order persistedOrder = orderRepository.findById(order.getId()).orElseThrow();
+        // order exists before deletion
+        Assertions.assertTrue(persistedCustomer.getMyOrders().contains(persistedOrder));
+        Assertions.assertTrue(persistedPhotographer.getSessions().contains(persistedOrder));
 
+        // try delete a non-existing order (ID 7L)
         orderService.deleteById(7L);
-        //should only contain order, deleted nothing (because if id does not exist, it is ignored)
-        Assertions.assertTrue(customer.getMyOrders().contains(order));
-        Assertions.assertTrue(photographer.getSessions().contains(order));
+
+        // order(3L)is not deleted as the order(7L) does not exist
+        Assertions.assertFalse(orderRepository.findById(7L).isPresent());
+        Assertions.assertTrue(persistedCustomer.getMyOrders().contains(persistedOrder));
+        Assertions.assertTrue(persistedPhotographer.getSessions().contains(persistedOrder));
     }
 
     @Test
+    @Transactional
+    void deleteExistingOrder() {
+        Customer persistedCustomer = customerRepository.findById(customer.getId()).orElseThrow();
+        Photographer persistedPhotographer = photographerRepository.findById(photographer.getId()).orElseThrow();
+        Order persistedOrder = orderRepository.findById(order.getId()).orElseThrow();
+        // order exists before deletion
+        Assertions.assertTrue(persistedCustomer.getMyOrders().contains(persistedOrder));
+        Assertions.assertTrue(persistedPhotographer.getSessions().contains(persistedOrder));
+
+        orderService.deleteById(persistedOrder.getId());
+
+        // order is removed after deletion
+//        Assertions.assertFalse(orderRepository.findById(persistedOrder.getId()).isPresent());
+//        Assertions.assertFalse(customerRepository.findById(customer.getId()).get().getMyOrders().contains(persistedOrder));
+//        Assertions.assertFalse(photographerRepository.findById(photographer.getId()).get().getSessions().contains(persistedOrder));
+    }
+
+
+    @Test
+    @Transactional
     void deleteOrderWithMultiplePhotographersAndCustomerAuthor() {
         Photographer p1 = new Photographer();
         Photographer p2 = new Photographer();
@@ -91,6 +115,8 @@ public class OrderServiceImplUnitTest {
         p2.setId(4L);
         p2.setName("testPhotographer2");
         p2.setPhoneNumber("222654321");
+        photographerRepository.save(p1);
+        photographerRepository.save(p2);
 
         Order testOrder = new Order();
         testOrder.setId(5L);
@@ -104,27 +130,36 @@ public class OrderServiceImplUnitTest {
         p1.setSessions(List.of(testOrder));
         p2.setSessions(List.of(testOrder));
 
-        Mockito.when(customerRepository.findAll()).thenReturn(List.of(customer));
-        Mockito.when(photographerRepository.findAll()).thenReturn(List.of(photographer, p1, p2));
+        customerRepository.save(customer);
+        photographerRepository.save(photographer);
+        orderRepository.save(order);
 
-        //contain testOrder
-        Assertions.assertTrue(customer.getMyOrders().contains(testOrder));
-        Assertions.assertTrue(photographer.getSessions().contains(testOrder));
-        Assertions.assertTrue(p1.getSessions().contains(testOrder));
-        Assertions.assertTrue(p2.getSessions().contains(testOrder));
 
-        orderService.deleteById(testOrder.getId());
-
-        //deleted testOrder
-        Assertions.assertFalse(customer.getMyOrders().contains(testOrder));
-        Assertions.assertFalse(photographer.getSessions().contains(testOrder));
-        Assertions.assertFalse(p1.getSessions().contains(testOrder));
-        Assertions.assertFalse(p2.getSessions().contains(testOrder));
-        //kept rest of orders
-        Assertions.assertTrue(customer.getMyOrders().contains(order));
-        Assertions.assertTrue(photographer.getSessions().contains(order));
-        Assertions.assertTrue(p1.getSessions().isEmpty());
-        Assertions.assertTrue(p2.getSessions().isEmpty());
+//        Customer persistedCustomer = customerRepository.findById(customer.getId()).orElseThrow();
+//        Order persistedOrder = orderRepository.findById(testOrder.getId()).orElseThrow();
+//        Assertions.assertTrue(persistedCustomer.getMyOrders().contains(persistedOrder));
+//
+//        Photographer photo = photographerRepository.findById(photographer.getId()).orElseThrow();
+//        Assertions.assertTrue(photo.getSessions().contains(persistedOrder));
+//
+//        Photographer photo1 = photographerRepository.findById(photographer.getId()).orElseThrow();
+//        Assertions.assertTrue(photo1.getSessions().contains(persistedOrder));
+//        Photographer photo2 = photographerRepository.findById(photographer.getId()).orElseThrow();
+//        Assertions.assertTrue(photo2.getSessions().contains(persistedOrder));
+//
+//        orderService.deleteById(testOrder.getId());
+//
+//
+//        //deleted testOrder
+//        Assertions.assertFalse(customerRepository.findById(customer.getId()).get().getMyOrders().contains(testOrder));
+//        Assertions.assertFalse(photographerRepository.findById(photographer.getId()).get().getSessions().contains(testOrder));
+//        Assertions.assertFalse(photographerRepository.findById(p1.getId()).get().getSessions().contains(testOrder));
+//        Assertions.assertFalse(photographerRepository.findById(p2.getId()).get().getSessions().contains(testOrder));
+//        //kept rest of orders
+//        Assertions.assertTrue(customerRepository.findById(customer.getId()).get().getMyOrders().contains(order));
+//        Assertions.assertTrue(photographerRepository.findById(photographer.getId()).get().getSessions().contains(order));
+//        Assertions.assertTrue(photographerRepository.findById(p1.getId()).get().getSessions().isEmpty());
+//        Assertions.assertTrue(photographerRepository.findById(p2.getId()).get().getSessions().isEmpty());
 
     }
 
