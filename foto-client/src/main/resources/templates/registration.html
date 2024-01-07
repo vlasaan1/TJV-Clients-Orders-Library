@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>FOTO</title>
+</head>
+<body>
+<nav>
+  <a href="/">Welcome</a> |
+  <a href="/customers">Customer management</a> |
+  <a href="/customers/registration">Customer registration</a> |
+  <a href="/photographers">Photographer management</a> |
+  <a href="/photographers/registrationPhoto">Photographer Registration</a> |
+  <a href="/orders">Order management</a> |
+  <a href="/orders/newOrder">New order </a>
+</nav>
+<main>
+  <h1>Customer Registration</h1>
+  <div>
+    <h2>Register customer</h2>
+    <form method="post" th:action="@{/customers/registration}" th:object="${customerDto}">
+      <div>
+        <input type="hidden" id="id" th:field="*{id}"/>
+
+        <label for="name">Name: </label>
+        <input type="text" id="name" th:field="*{name}" required/>
+        <label for="phoneNumber">Phone Number: </label>
+        <input type="text" id="phoneNumber"  th:field="*{phoneNumber}" required/>
+      </div>
+      <div th:if="${error}">
+        <span> <b> ERROR - Incorrect format of phone number.</b> </span>
+      </div>
+      <input type="submit"/>
+    </form>
+  </div>
+</main>
+</body>
+</html>

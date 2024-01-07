@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FOTO</title>
+</head>
+<body>
+<nav>
+    <a href="/">Welcome</a> |
+    <a href="/customers">Customer management</a> |
+    <a href="/customers/registration">Customer registration</a> |
+    <a href="/photographers">Photographer management</a> |
+    <a href="/photographers/registrationPhoto">Photographer Registration</a> |
+    <a href="/orders">Order management</a> |
+    <a href="/orders/newOrder">New order </a>
+</nav>
+<main>
+    <div th:if="${error}">
+        <span>ERROR</span>
+    </div>
+
+    <h1>order details</h1>
+    <div>
+        <label>Date:</label>
+        <span th:text="${order.date}"></span>
+    </div>
+    <div>
+        <label>Author ID:</label>
+        <span th:text="${order.author.id}"></span>
+    </div>
+    <div>
+        <label>Cost in CZK:</label>
+        <span th:text="${order.cost}"></span>
+    </div>
+    <div>
+        <label>Message:</label>
+        <span th:text="${order.message}"></span>
+    </div>
+    <div>
+        <label>Photographers:</label>
+        <ul>
+            <li th:each="photographer : ${order.photographers}">
+                <span th:text="${photographer.name}"></span>
+            </li>
+        </ul>
+    </div>
+
+    <a th:href="@{/orders}">back to order list</a>
+
+</main>
+</body>
+</html>

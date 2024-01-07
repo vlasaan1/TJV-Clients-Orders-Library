@@ -3,19 +3,32 @@ package cz.cvut.fit.tjv.foto.domain;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 
 @Entity
+//@Table(name = "customers")
 public class Customer implements EntityWithId<Long> {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
-    //unsure about this attribute
     private String phoneNumber;
-    @OneToMany(mappedBy = "author")
-    private Collection<Order> myOrders;
-    @ManyToMany(mappedBy = "orderedBy")
-    private Collection<Order> orderedByMe;
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
+    private Collection<Order> myOrders = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(id, customer.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public Long getId() {
@@ -50,12 +63,5 @@ public class Customer implements EntityWithId<Long> {
         this.myOrders = myOrders;
     }
 
-    public Collection<Order> getOrderedByMe() {
-        return orderedByMe;
-    }
-
-    public void setOrderedByMe(Collection<Order> orderedByMe) {
-        this.orderedByMe = orderedByMe;
-    }
 
 }
