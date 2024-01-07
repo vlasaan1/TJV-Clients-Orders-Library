@@ -25,7 +25,7 @@ Klient
     - úvod
 - Customer,Photographer management 
     - zobrazí všechny zákazníky/fotografy
-    - lze upravit - lze editovat či smazat, smazat fotografa lze pokud je splněna podmínka, že nemá zadanou práci
+    - lze upravit či smazat. Smazat fotografa lze pokud je splněna podmínka, že nemá zadanou práci
 - Order management 
     - zobrazí všechny objednávky, nebo lze filtrovat zobrazení objednávek podle rozmezí ceny
     - lze editovat, smazat a zobrazit si objednávku včetně informací o fotografech a zpráv
