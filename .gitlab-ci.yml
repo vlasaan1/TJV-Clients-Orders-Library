@@ -21,4 +21,4 @@ client:
     artifacts:
         name: "client"
         paths:
-             - "**/libs/foto-client-*.-SNAPSHOT"
+             - "**/libs/foto-client-*.jar"
