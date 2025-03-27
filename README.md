@@ -1,3 +1,19 @@
+In a Java Technology course focused on hands on experience this project taught me to develop a functional full-stack application with data validation and business logic. 
+
+Tech: 
+
+    Backend: Java, Spring Boot, REST API (CRUD operations + price range filtering)
+    Frontend: Web client for customer and order management (HTML)
+    Database: 3 main entities (Customers, Photographers, Orders)
+Features: 
+    
+    CRUD operations, 
+    automated tests, 
+    Swagger docs
+
+
+
+
 # TJV semestrální projekt
 FOTO 
 
